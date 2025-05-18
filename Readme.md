@@ -181,6 +181,7 @@
   );
   ```
 - **Creating Tables with Constraints example**
+
   ```sql
 
   CREATE TABLE person (
@@ -193,35 +194,40 @@
   );
 
   ```
+
 - **Foreign Key Constraint**
   - Values in the foreign key column must exist in the referenced primary key column.
   - Example Tables:
-  | **Product** |                | **Order**    |             | **Customer**    |          |
-  | ----------- | -------------- | ------------ | ----------- | --------------- | -------- |
-  | **prod_id** | **prod_title** | **order_id** | **prod_id** | **customer_id** | **name** |
-  | 1           | shoe           | 1            | 1           | 1               | Alice    |
-  | 2           | t-shirt        | 2            | 2           | 2               | Bob      |
-  ```sql
-  CREATE TABLE customers (
-      customer_id SERIAL PRIMARY KEY,
-      name VARCHAR(100) NOT NULL
-  );
 
-  CREATE TABLE products (
-      prod_id SERIAL PRIMARY KEY,
-      prod_title VARCHAR(100) NOT NULL
-  );
+| **Product** |                | **Order**    |             | **Customer**    |          |
+| ----------- | -------------- | ------------ | ----------- | --------------- | -------- |
+| **prod_id** | **prod_title** | **order_id** | **prod_id** | **customer_id** | **name** |
+| 1           | shoe           | 1            | 1           | 1               | Alice    |
+| 2           | t-shirt        | 2            | 2           | 2               | Bob      |
 
-  CREATE TABLE orders (
-      order_id SERIAL PRIMARY KEY,
-      customer_id INTEGER REFERENCES customers(customer_id),
-      prod_id INTEGER REFERENCES products(prod_id)      -- foreign key to products
-  );
-  --customer_id in orders table is a foreign key that references customer_id in the customers table.
+```sql
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
 
-  --This means you cannot insert a customer_id in orders unless it exists in the customers table.
-  ```
+CREATE TABLE products (
+    prod_id SERIAL PRIMARY KEY,
+    prod_title VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    customer_id INTEGER REFERENCES customers(customer_id),
+    prod_id INTEGER REFERENCES products(prod_id)      -- foreign key to products
+);
+--customer_id in orders table is a foreign key that references customer_id in the customers table.
+
+--This means you cannot insert a customer_id in orders unless it exists in the customers table.
+```
+
 - **Multiple Column Primary Key Example**
+
   ```sql
   CREATE TABLE person2 (
       id SERIAL,
@@ -232,18 +238,22 @@
   );
 
   ```
+
 - **Single-Row Insert template**
+
   ```sql
   INSERT INTO your_table (column1, column2, column3)
   VALUES (value1, value2, value3);
 
   ```
+
 - **Single-Row Insert example**
   ```sql
   INSERT INTO employees (first_name, last_name, hire_date)
   VALUES ('John', 'Doe', '2022-01-22');
   ```
 - **Multi-Row Insert template**
+
   ```sql
   INSERT INTO your_table (column1, column2, column3)
   VALUES
@@ -252,7 +262,9 @@
       ...;
 
   ```
+
 - **Multi-Row Insert Example**
+
   ```sql
   INSERT INTO employees (first_name, last_name, hire_date)
   VALUES
@@ -260,6 +272,7 @@
       ('Bob', 'Johnson', '2022-03-25');
 
   ```
+
 - **If we know the columns (not recommended)**
   ```sql
   -- Assuming table person has columns (id, name, age)
@@ -269,6 +282,7 @@
 ### **12. Miscellaneous**
 
 - **Clear terminal from `psql`:**
+
   ```sql
   \! clear   -- Linux/macOS
   \! cls     -- Windows (if works)
