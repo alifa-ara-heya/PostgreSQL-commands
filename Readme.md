@@ -462,7 +462,7 @@ ALTER TABLE person3 DROP CONSTRAINT unique_person3_user_address;
 
 ---
 
-### **16. Basic Table Operations**
+### ** Basic Table Operations**
 
 - **Creating a Table named students**
 
@@ -483,7 +483,7 @@ CREATE TABLE students (
 
 ---
 
-### **17. Selecting Data**
+### **16. Selecting Data**
 
 - **Select All Rows**
 
@@ -527,7 +527,7 @@ SELECT DISTINCT country FROM students;  -- Unique countries
 
 ---
 
-### **18. Data Filtering (WHERE Clause)**
+### **17. Data Filtering (WHERE Clause)**
 
 - **Filtering by Country**
 
@@ -578,7 +578,7 @@ SELECT * FROM students WHERE firstName ILIKE 'a%';  -- Case-insensitive search
 SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 ```
 
-### **19. Scalar Functions**
+### **18. Scalar Functions**
 
 - **UPPER()**
 
@@ -620,11 +620,11 @@ SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 
 ---
 
-### **20. Aggregate Functions**
+### **19. Aggregate Functions**
 
 - **Average Age**
 
-  AVG() Calculates the average of a set of values.
+  AVG() calculates the average of a set of values.
 
 ```sql
 SELECT avg(age) FROM students;
@@ -658,7 +658,7 @@ SELECT max(length(firstName)) FROM students;
 
 ---
 
-- **NULL Filtering**
+### NULL Filtering
 
 ```sql
 SELECT * FROM students WHERE email IS NULL;  -- Rows with no email
@@ -668,7 +668,7 @@ SELECT * FROM students WHERE email = 'rachel.garcia@example.com';  -- Specific e
 
 ---
 
-### **21. Handling NULL with COALESCE**
+### **20. Handling NULL with COALESCE**
 
 - **Default Placeholder for NULL (Using COALESCE for Default Values)**
 
@@ -677,7 +677,7 @@ SELECT COALESCE(email, 'Email Not Provided'), age, blood_group FROM students;
 
 ```
 
-### **22. `IN` Operator**
+### **21. `IN` Operator**
 
 The `IN` operator is used to check if a value matches any value in a list of values. Can be used to shorten multiple OR operators.
 
@@ -704,7 +704,7 @@ The `IN` operator is used to check if a value matches any value in a list of val
 
   ```
 
-### **23. `BETWEEN` Operator**
+### **22. `BETWEEN` Operator**
 
 The `BETWEEN` operator is used to filter the results within a range (inclusive).
 
@@ -724,7 +724,7 @@ The `BETWEEN` operator is used to filter the results within a range (inclusive).
 
 ---
 
-### **24. `LIKE` Operator**
+### **23. `LIKE` Operator**
 
 The `LIKE` operator is used to search for a specified pattern in a column.
 
@@ -774,7 +774,7 @@ The `LIKE` operator is used to search for a specified pattern in a column.
 
   ```
 
-### **25. Updating and Deleting Data**
+### **24. Updating and Deleting Data**
 
 - **Update Data**
 
@@ -806,7 +806,7 @@ DELETE FROM students;  -- Deletes all rows in the table
 
 ---
 
-### **26. Pagination (LIMIT and OFFSET)**
+### **25. Pagination (LIMIT and OFFSET)**
 
 - **Limit Results**
 
