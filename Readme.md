@@ -458,11 +458,11 @@ ALTER TABLE person3 DROP CONSTRAINT unique_person3_user_address;
 
 - Removes the `unique_person3_user_address` constraint.
 
-### 15. PostgreSQL Operations - Queries and Commands
+### **15. PostgreSQL Operations - Queries and Commands**
 
 ---
 
-### **Basic Table Operations**
+### **16. Basic Table Operations**
 
 - **Creating a Table named students**
 
@@ -483,7 +483,7 @@ CREATE TABLE students (
 
 ---
 
-### **Selecting Data**
+### **17. Selecting Data**
 
 - **Select All Rows**
 
@@ -527,7 +527,7 @@ SELECT DISTINCT country FROM students;  -- Unique countries
 
 ---
 
-### **Data Filtering (WHERE Clause)**
+### **18. Data Filtering (WHERE Clause)**
 
 - **Filtering by Country**
 
@@ -578,7 +578,7 @@ SELECT * FROM students WHERE firstName ILIKE 'a%';  -- Case-insensitive search
 SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 ```
 
-### **Scalar Functions**
+### **19. Scalar Functions**
 
 - **UPPER()**
 
@@ -620,7 +620,7 @@ SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 
 ---
 
-### **Aggregate Functions**
+### **20. Aggregate Functions**
 
 - **Average Age**
 
@@ -668,7 +668,7 @@ SELECT * FROM students WHERE email = 'rachel.garcia@example.com';  -- Specific e
 
 ---
 
-### **Handling NULL with COALESCE**
+### **21. Handling NULL with COALESCE**
 
 - **Default Placeholder for NULL (Using COALESCE for Default Values)**
 
@@ -677,7 +677,7 @@ SELECT COALESCE(email, 'Email Not Provided'), age, blood_group FROM students;
 
 ```
 
-### **`IN` Operator**
+### **22. `IN` Operator**
 
 The `IN` operator is used to check if a value matches any value in a list of values. Can be used to shorten multiple OR operators.
 
@@ -704,7 +704,7 @@ The `IN` operator is used to check if a value matches any value in a list of val
 
   ```
 
-### **`BETWEEN` Operator**
+### **23. `BETWEEN` Operator**
 
 The `BETWEEN` operator is used to filter the results within a range (inclusive).
 
@@ -724,7 +724,7 @@ The `BETWEEN` operator is used to filter the results within a range (inclusive).
 
 ---
 
-### **`LIKE` Operator**
+### **24. `LIKE` Operator**
 
 The `LIKE` operator is used to search for a specified pattern in a column.
 
@@ -774,7 +774,7 @@ The `LIKE` operator is used to search for a specified pattern in a column.
 
   ```
 
-### **Updating and Deleting Data**
+### **25. Updating and Deleting Data**
 
 - **Update Data**
 
@@ -806,7 +806,7 @@ DELETE FROM students;  -- Deletes all rows in the table
 
 ---
 
-### **Pagination (LIMIT and OFFSET)**
+### **26. Pagination (LIMIT and OFFSET)**
 
 - **Limit Results**
 
