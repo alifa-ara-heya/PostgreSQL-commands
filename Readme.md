@@ -3,9 +3,9 @@
 ## Table of Contents
 
 1. [Connecting to PostgreSQL](#1-connecting-to-postgresql)
-2. [Creating Database](#4-creating-database)
+2. [Creating Database](#2-creating-database)
 3. [Switching Databases and Exiting](#3-switching-databases-and-exiting)
-4. [Listing Information](#2-listing-information)
+4. [Listing Information](#4-listing-information)
 5. [Managing Users / Roles](#5-managing-users-roles)
 6. [Login as New User](#6-login-as-new-user)
 7. [Table Operations](#7-table-operations)
