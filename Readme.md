@@ -1,5 +1,34 @@
 ## **PostgreSQL Quick Reference**
 
+## Table of Contents
+
+1. [Connecting to PostgreSQL](#1-connecting-to-postgresql)
+2. [Listing Information](#2-listing-information)
+3. [Switching Databases and Exiting](#3-switching-databases-and-exiting)
+4. [Managing Databases](#4-managing-databases)
+5. [Managing Users / Roles](#5-managing-users-roles)
+6. [Login as New User](#6-login-as-new-user)
+7. [Table Operations](#7-table-operations)
+8. [Granting and Revoking Permissions](#8-granting-and-revoking-permissions)
+9. [Renaming and Deleting Databases](#9-renaming-and-deleting-databases)
+10. [Renaming and Deleting Tables](#10-renaming-and-deleting-tables)
+11. [Table with Constraints](#11-table-with-constraints)
+12. [Clearing Terminal](#12-clearing-terminal)
+13. [PostgreSQL Data Types](#13-postgresql-data-types)
+14. [Modifying Columns in PostgreSQL](#14-modifying-columns-in-postgresql)
+15. [Creating a Table](#15-creating-a-table)
+16. [Selecting Data](#16-selecting-data)
+17. [Data Filtering (WHERE Clause)](#17-data-filtering-where-clause)
+18. [Scalar Functions](#18-scalar-functions)
+19. [Aggregate Functions](#19-aggregate-functions)
+20. [NULL Filtering](#20-null-filtering)
+21. [Handling NULL with COALESCE](#21-handling-null-with-coalesce)
+22. [`IN` Operator](#22-in-operator)
+23. [`BETWEEN` Operator](#23-between-operator)
+24. [`LIKE` Operator](#24-like-operator)
+25. [Updating and Deleting Data](#25-updating-and-deleting-data)
+26. [Pagination (LIMIT and OFFSET)](#26-pagination-limit-and-offset)
+
 ### **1. Connecting to PostgreSQL**
 
 - **Basic connection:**
@@ -59,7 +88,7 @@
   ```sql
   CREATE DATABASE test_db;
   --or,
-  create database test_db1; --not case sensiitive
+  create database test_db1; --not case sensitive
   ```
 
 ---
@@ -158,7 +187,7 @@
   DROP DATABASE another_db;
   ```
 
-### **10. Renaming and Dropping Tables**
+### **10. Renaming and Deleting Tables**
 
 - **Rename a table:**
   ```sql
@@ -185,12 +214,12 @@
   ```sql
 
   CREATE TABLE person (
-      person_id SERIAL PRIMARY KEY,        -- SERIAL auto-increments, PRIMARY KEY enforces uniqueness and NOT NULL
-      first_name VARCHAR(50) NOT NULL,     -- Limits text to 50 characters, NOT NULL ensures the value must be provided
-      last_name VARCHAR(50) NOT NULL,      -- Same as above, for the last name
-      is_active BOOLEAN DEFAULT true,      -- BOOLEAN type, DEFAULT sets initial value to true if not provided
-      age INTEGER CHECK (age >= 0),        -- INTEGER type, CHECK ensures age must be zero or greater
-      email VARCHAR(255) UNIQUE            -- UNIQUE ensures no duplicate emails
+      person_id SERIAL PRIMARY KEY,  -- SERIAL auto-increments, PRIMARY KEY enforces uniqueness and NOT NULL
+      first_name VARCHAR(50) NOT NULL, -- Limits text to 50 characters, NOT NULL ensures the value must be provided
+      last_name VARCHAR(50) NOT NULL,  -- Same as above, for the last name
+      is_active BOOLEAN DEFAULT true, -- BOOLEAN type, DEFAULT sets initial value to true if not provided
+      age INTEGER CHECK (age >= 0),  -- INTEGER type, CHECK ensures age must be zero or greater
+      email VARCHAR(255) UNIQUE   -- UNIQUE ensures no duplicate emails
   );
 
   ```
@@ -279,7 +308,7 @@ CREATE TABLE orders (
   INSERT INTO persons VALUES (1, 'John Doe', 23);
   ```
 
-### **12. Miscellaneous**
+### **12. Clearing Terminal**
 
 - **Clear terminal from `psql`:**
 
@@ -458,11 +487,11 @@ ALTER TABLE person3 DROP CONSTRAINT unique_person3_user_address;
 
 - Removes the `unique_person3_user_address` constraint.
 
-### **15. PostgreSQL Operations - Queries and Commands**
+### ** PostgreSQL Operations - Queries and Commands - Basic Table Operations**
 
 ---
 
-### ** Basic Table Operations**
+### **15. Creating a Table**
 
 - **Creating a Table named students**
 
@@ -658,7 +687,7 @@ SELECT max(length(firstName)) FROM students;
 
 ---
 
-### NULL Filtering
+### **20. NULL Filtering**
 
 ```sql
 SELECT * FROM students WHERE email IS NULL;  -- Rows with no email
@@ -668,7 +697,7 @@ SELECT * FROM students WHERE email = 'rachel.garcia@example.com';  -- Specific e
 
 ---
 
-### **20. Handling NULL with COALESCE**
+### **21. Handling NULL with COALESCE**
 
 - **Default Placeholder for NULL (Using COALESCE for Default Values)**
 
@@ -677,7 +706,7 @@ SELECT COALESCE(email, 'Email Not Provided'), age, blood_group FROM students;
 
 ```
 
-### **21. `IN` Operator**
+### **22. `IN` Operator**
 
 The `IN` operator is used to check if a value matches any value in a list of values. Can be used to shorten multiple OR operators.
 
@@ -704,7 +733,7 @@ The `IN` operator is used to check if a value matches any value in a list of val
 
   ```
 
-### **22. `BETWEEN` Operator**
+### **23. `BETWEEN` Operator**
 
 The `BETWEEN` operator is used to filter the results within a range (inclusive).
 
@@ -724,7 +753,7 @@ The `BETWEEN` operator is used to filter the results within a range (inclusive).
 
 ---
 
-### **23. `LIKE` Operator**
+### **24. `LIKE` Operator**
 
 The `LIKE` operator is used to search for a specified pattern in a column.
 
@@ -774,7 +803,7 @@ The `LIKE` operator is used to search for a specified pattern in a column.
 
   ```
 
-### **24. Updating and Deleting Data**
+### **25. Updating and Deleting Data**
 
 - **Update Data**
 
@@ -806,7 +835,7 @@ DELETE FROM students;  -- Deletes all rows in the table
 
 ---
 
-### **25. Pagination (LIMIT and OFFSET)**
+### **26. Pagination (LIMIT and OFFSET)**
 
 - **Limit Results**
 
