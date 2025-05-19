@@ -457,14 +457,6 @@ ALTER TABLE person3 ALTER COLUMN user_age DROP NOT NULL;
 
 _Removes the `NOT NULL` constraint from `user_age`._
 
-- **Delete a Unique Constraint**
-
-```sql
-ALTER TABLE person3 ALTER COLUMN user_name DROP UNIQUE; --will give syntax error
-```
-
-- **Error**: You can't directly drop a `UNIQUE` constraint this way; it needs to be done via `DROP CONSTRAINT`.
-
 - **Add a New Column**
 
 ```sql
@@ -490,7 +482,13 @@ ADD CONSTRAINT unique_person3_user_address UNIQUE (user_address);
 
 _Adds a `UNIQUE` constraint to the `user_address` column._
 
-- **Drop a Constraint**
+- **Delete a Unique Constraint**
+
+```sql
+ALTER TABLE person3 ALTER COLUMN user_name DROP UNIQUE; --will give syntax error
+```
+
+- **Error**: You can't directly drop a `UNIQUE` constraint this way; it needs to be done via `DROP CONSTRAINT`.
 
 ```sql
 ALTER TABLE person3 DROP CONSTRAINT unique_person3_user_address;
