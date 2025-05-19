@@ -405,7 +405,7 @@ ALTER TABLE person3
 ADD COLUMN email VARCHAR(25) DEFAULT 'default@email.com' NOT NULL;
 ```
 
-- Adds `email` column with a default value and `NOT NULL` constraint.
+_Adds `email` column with a default value and `NOT NULL` constraint_
 
 - **Insert Data into Table**
 
@@ -413,7 +413,7 @@ ADD COLUMN email VARCHAR(25) DEFAULT 'default@email.com' NOT NULL;
 INSERT INTO person3 VALUES (5, 'test2', 45, 'test@gmail.com');
 ```
 
-- Inserts a new row into `person3`.
+_Inserts a new row into `person3`._
 
 - **Delete a Column**
 
@@ -421,7 +421,7 @@ INSERT INTO person3 VALUES (5, 'test2', 45, 'test@gmail.com');
 ALTER TABLE person3 DROP COLUMN email;
 ```
 
-- Removes the `email` column from `person3`.
+_Removes the `email` column from `person3`._
 
 - **Rename a Column**
 
@@ -429,7 +429,7 @@ ALTER TABLE person3 DROP COLUMN email;
 ALTER TABLE person3 RENAME COLUMN age TO user_age;
 ```
 
-- Renames `age` column to `user_age`.
+_Renames `age` column to `user_age`._
 
 - **Change Data Type of a Column**
 
@@ -437,7 +437,7 @@ ALTER TABLE person3 RENAME COLUMN age TO user_age;
 ALTER TABLE person3 ALTER COLUMN user_name TYPE VARCHAR(50);
 ```
 
-- Alters the `user_name` column to have a maximum length of 50 characters.
+_Alters the `user_name` column to have a maximum length of 50 characters._
 
 - **Add Constraint to Existing Column**
 
@@ -445,7 +445,7 @@ ALTER TABLE person3 ALTER COLUMN user_name TYPE VARCHAR(50);
 ALTER TABLE person3 ALTER COLUMN user_age SET NOT NULL;
 ```
 
-- Adds `NOT NULL` constraint to `user_age` column.
+_Adds `NOT NULL` constraint to `user_age` column._
 
 > Note: Constraints like `DEFAULT`, `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` cannot be added with like this.
 
@@ -455,7 +455,7 @@ ALTER TABLE person3 ALTER COLUMN user_age SET NOT NULL;
 ALTER TABLE person3 ALTER COLUMN user_age DROP NOT NULL;
 ```
 
-- Removes the `NOT NULL` constraint from `user_age`.
+_Removes the `NOT NULL` constraint from `user_age`._
 
 - **Delete a Unique Constraint**
 
@@ -471,7 +471,7 @@ ALTER TABLE person3 ALTER COLUMN user_name DROP UNIQUE; --will give syntax error
 ALTER TABLE person3 ADD COLUMN user_address VARCHAR(255);
 ```
 
-- Adds `user_address` column with a maximum length of 255 characters.
+_Adds `user_address` column with a maximum length of 255 characters._
 
 - **Insert Data into New Column**
 
@@ -479,7 +479,7 @@ ALTER TABLE person3 ADD COLUMN user_address VARCHAR(255);
 INSERT INTO person3 VALUES (11, 'test3', 20, 'sylhet');
 ```
 
-- Inserts new data into the table.
+_Inserts new data into the table._
 
 - **Add Unique Constraint**
 
@@ -488,7 +488,7 @@ ALTER TABLE person3
 ADD CONSTRAINT unique_person3_user_address UNIQUE (user_address);
 ```
 
-- Adds a `UNIQUE` constraint to the `user_address` column.
+_Adds a `UNIQUE` constraint to the `user_address` column._
 
 - **Drop a Constraint**
 
@@ -496,7 +496,7 @@ ADD CONSTRAINT unique_person3_user_address UNIQUE (user_address);
 ALTER TABLE person3 DROP CONSTRAINT unique_person3_user_address;
 ```
 
-- Removes the `unique_person3_user_address` constraint.
+_Removes the `unique_person3_user_address` constraint._
 
 ### ** PostgreSQL Operations - Queries and Commands - Basic Table Operations**
 
