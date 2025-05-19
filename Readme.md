@@ -3,9 +3,9 @@
 ## Table of Contents
 
 1. [Connecting to PostgreSQL](#1-connecting-to-postgresql)
-2. [Listing Information](#2-listing-information)
+2. [Creating Database](#4-creating-database)
 3. [Switching Databases and Exiting](#3-switching-databases-and-exiting)
-4. [Managing Databases](#4-managing-databases)
+4. [Listing Information](#2-listing-information)
 5. [Managing Users / Roles](#5-managing-users-roles)
 6. [Login as New User](#6-login-as-new-user)
 7. [Table Operations](#7-table-operations)
@@ -51,19 +51,13 @@
 
 ---
 
-### **2. Listing Information**
+### **2. Managing Databases**
 
-- **List all databases:**
+- **Create a database:**
   ```sql
-  \l
-  ```
-- **List all users/roles:**
-  ```sql
-  \du
-  ```
-- **List all schemas (inside a DB):**
-  ```sql
-  \dn
+  CREATE DATABASE test_db;
+  --or,
+  create database test_db1; --not case sensitive
   ```
 
 ---
@@ -83,13 +77,19 @@
 
 ---
 
-### **4. Managing Databases**
+### **4. Listing Information**
 
-- **Create a database:**
+- **List all databases:**
   ```sql
-  CREATE DATABASE test_db;
-  --or,
-  create database test_db1; --not case sensitive
+  \l
+  ```
+- **List all users/roles:**
+  ```sql
+  \du
+  ```
+- **List all schemas (inside a DB):**
+  ```sql
+  \dn
   ```
 
 ---
@@ -323,7 +323,7 @@ CREATE TABLE orders (
 
   ```sql
   \! clear   -- Linux/macOS
-  \! cls     -- Windows (if works)
+  \! cls     -- Windows
 
   ```
 
@@ -622,6 +622,8 @@ SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 
 ### **18. Scalar Functions**
 
+> **Scalar functions** are functions that operate on single values (scalar values) and return a single value as the result.
+
 - **UPPER()**
 
   Converts all characters in a string to uppercase.
@@ -663,6 +665,8 @@ SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 ---
 
 ### **19. Aggregate Functions**
+
+> **Aggregate functions** in PostgreSQL are used to perform calculations on a set of rows and return a single result.
 
 - **Average Age**
 
