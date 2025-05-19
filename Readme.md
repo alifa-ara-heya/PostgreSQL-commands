@@ -71,16 +71,17 @@
 ### **3. Switching Databases and Exiting**
 
 - **Connect to another DB while in `psql`:**
+
   ```sql
   \c test_db
   ```
-
----
 
 - **Quit `psql`:**
   ```sql
   \q
   ```
+
+---
 
 ### **4. Managing Databases**
 
@@ -176,6 +177,8 @@
   ```
   _(grants role access to user)_
 
+---
+
 ### **9. Renaming and Deleting Databases**
 
 - **Rename a database:**
@@ -187,6 +190,8 @@
   DROP DATABASE another_db;
   ```
 
+---
+
 ### **10. Renaming and Deleting Tables**
 
 - **Rename a table:**
@@ -197,6 +202,8 @@
   ```sql
   DROP TABLE your_table;
   ```
+
+---
 
 ### **11. Table with constraints**
 
@@ -307,6 +314,8 @@ CREATE TABLE orders (
   -- Assuming table person has columns (id, name, age)
   INSERT INTO persons VALUES (1, 'John Doe', 23);
   ```
+
+---
 
 ### **12. Clearing Terminal**
 
@@ -607,6 +616,8 @@ SELECT * FROM students WHERE firstName ILIKE 'a%';  -- Case-insensitive search
 SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 ```
 
+---
+
 ### **18. Scalar Functions**
 
 - **UPPER()**
@@ -706,6 +717,8 @@ SELECT COALESCE(email, 'Email Not Provided'), age, blood_group FROM students;
 
 ```
 
+---
+
 ### **22. `IN` Operator**
 
 The `IN` operator is used to check if a value matches any value in a list of values. Can be used to shorten multiple OR operators.
@@ -802,6 +815,8 @@ The `LIKE` operator is used to search for a specified pattern in a column.
   SELECT * FROM students WHERE lastname LIKE '__o__'; --e.g. Brown, Moore
 
   ```
+
+---
 
 ### **25. Updating and Deleting Data**
 
