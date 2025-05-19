@@ -51,7 +51,7 @@
 
 ---
 
-### **2. Creating Databases**
+### **2. Creating Database**
 
 - **Create a database:**
   ```sql
