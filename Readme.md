@@ -388,15 +388,17 @@ CREATE TABLE orders (
 | --------- | ------- | --------------------------- |
 | `BOOLEAN` | 1 byte  | Stores TRUE or FALSE values |
 
+---
+
 ### **14. Modifying Columns in PostgreSQL**
 
-**Select Data from Table**
+- **Select Data from Table**
 
 ```sql
 SELECT * FROM person3;
 ```
 
-**Add a Column**
+- **Add a Column**
 
 ```sql
 ALTER TABLE person3
@@ -405,7 +407,7 @@ ADD COLUMN email VARCHAR(25) DEFAULT 'default@email.com' NOT NULL;
 
 - Adds `email` column with a default value and `NOT NULL` constraint.
 
-**Insert Data into Table**
+- **Insert Data into Table**
 
 ```sql
 INSERT INTO person3 VALUES (5, 'test2', 45, 'test@gmail.com');
@@ -413,7 +415,7 @@ INSERT INTO person3 VALUES (5, 'test2', 45, 'test@gmail.com');
 
 - Inserts a new row into `person3`.
 
-**Delete a Column**
+- **Delete a Column**
 
 ```sql
 ALTER TABLE person3 DROP COLUMN email;
@@ -421,7 +423,7 @@ ALTER TABLE person3 DROP COLUMN email;
 
 - Removes the `email` column from `person3`.
 
-**Rename a Column**
+- **Rename a Column**
 
 ```sql
 ALTER TABLE person3 RENAME COLUMN age TO user_age;
@@ -429,7 +431,7 @@ ALTER TABLE person3 RENAME COLUMN age TO user_age;
 
 - Renames `age` column to `user_age`.
 
-**Change Data Type of a Column**
+- **Change Data Type of a Column**
 
 ```sql
 ALTER TABLE person3 ALTER COLUMN user_name TYPE VARCHAR(50);
@@ -437,7 +439,7 @@ ALTER TABLE person3 ALTER COLUMN user_name TYPE VARCHAR(50);
 
 - Alters the `user_name` column to have a maximum length of 50 characters.
 
-**Add Constraint to Existing Column**
+- **Add Constraint to Existing Column**
 
 ```sql
 ALTER TABLE person3 ALTER COLUMN user_age SET NOT NULL;
@@ -445,9 +447,9 @@ ALTER TABLE person3 ALTER COLUMN user_age SET NOT NULL;
 
 - Adds `NOT NULL` constraint to `user_age` column.
 
-> Note: Constraints like `DEFAULT`, `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` cannot be added with `SET NOT NULL`.
+> Note: Constraints like `DEFAULT`, `UNIQUE`, `PRIMARY KEY`, and `FOREIGN KEY` cannot be added with like this.
 
-**Delete a Constraint**
+- **Delete a Constraint**
 
 ```sql
 ALTER TABLE person3 ALTER COLUMN user_age DROP NOT NULL;
@@ -455,7 +457,7 @@ ALTER TABLE person3 ALTER COLUMN user_age DROP NOT NULL;
 
 - Removes the `NOT NULL` constraint from `user_age`.
 
-**Delete a Unique Constraint**
+- **Delete a Unique Constraint**
 
 ```sql
 ALTER TABLE person3 ALTER COLUMN user_name DROP UNIQUE; --will give syntax error
@@ -463,7 +465,7 @@ ALTER TABLE person3 ALTER COLUMN user_name DROP UNIQUE; --will give syntax error
 
 - **Error**: You can't directly drop a `UNIQUE` constraint this way; it needs to be done via `DROP CONSTRAINT`.
 
-**Add a New Column**
+- **Add a New Column**
 
 ```sql
 ALTER TABLE person3 ADD COLUMN user_address VARCHAR(255);
@@ -471,7 +473,7 @@ ALTER TABLE person3 ADD COLUMN user_address VARCHAR(255);
 
 - Adds `user_address` column with a maximum length of 255 characters.
 
-**Insert Data into New Column**
+- **Insert Data into New Column**
 
 ```sql
 INSERT INTO person3 VALUES (11, 'test3', 20, 'sylhet');
@@ -479,7 +481,7 @@ INSERT INTO person3 VALUES (11, 'test3', 20, 'sylhet');
 
 - Inserts new data into the table.
 
-**Add Unique Constraint**
+- **Add Unique Constraint**
 
 ```sql
 ALTER TABLE person3
@@ -488,7 +490,7 @@ ADD CONSTRAINT unique_person3_user_address UNIQUE (user_address);
 
 - Adds a `UNIQUE` constraint to the `user_address` column.
 
-**Drop a Constraint**
+- **Drop a Constraint**
 
 ```sql
 ALTER TABLE person3 DROP CONSTRAINT unique_person3_user_address;
