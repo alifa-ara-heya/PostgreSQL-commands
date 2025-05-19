@@ -18,16 +18,16 @@
 14. [Modifying Columns in PostgreSQL](#14-modifying-columns-in-postgresql)
 15. [Creating a Table](#15-creating-a-table)
 16. [Selecting Data](#16-selecting-data)
-17. [Data Filtering (WHERE Clause)](#17-data-filtering-where-clause)
+17. [Data Filtering (`WHERE` Clause)](#17-data-filtering-where-clause)
 18. [Scalar Functions](#18-scalar-functions)
 19. [Aggregate Functions](#19-aggregate-functions)
-20. [NULL Filtering](#20-null-filtering)
-21. [Handling NULL with COALESCE](#21-handling-null-with-coalesce)
+20. [`NULL` Filtering](#20-null-filtering)
+21. [Handling `NULL` with COALESCE](#21-handling-null-with-coalesce)
 22. [`IN` Operator](#22-in-operator)
 23. [`BETWEEN` Operator](#23-between-operator)
 24. [`LIKE` Operator](#24-like-operator)
 25. [Updating and Deleting Data](#25-updating-and-deleting-data)
-26. [Pagination (LIMIT and OFFSET)](#26-pagination-limit-and-offset)
+26. [Pagination (`LIMIT` and `OFFSET`)](#26-pagination-limit-and-offset)
 
 ### **1. Connecting to PostgreSQL**
 
@@ -567,7 +567,7 @@ SELECT DISTINCT country FROM students;  -- Unique countries
 
 ---
 
-### **17. Data Filtering (WHERE Clause)**
+### **17. Data Filtering (`WHERE` Clause)**
 
 - **Filtering by Country**
 
@@ -700,7 +700,7 @@ SELECT max(length(firstName)) FROM students;
 
 ---
 
-### **20. NULL Filtering**
+### **20. `NULL` Filtering**
 
 ```sql
 SELECT * FROM students WHERE email IS NULL;  -- Rows with no email
@@ -710,7 +710,7 @@ SELECT * FROM students WHERE email = 'rachel.garcia@example.com';  -- Specific e
 
 ---
 
-### **21. Handling NULL with COALESCE**
+### **21. Handling `NULL` with COALESCE**
 
 - **Default Placeholder for NULL (Using COALESCE for Default Values)**
 
@@ -852,7 +852,7 @@ DELETE FROM students;  -- Deletes all rows in the table
 
 ---
 
-### **26. Pagination (LIMIT and OFFSET)**
+### **26. Pagination (`LIMIT` and `OFFSET`)**
 
 - **Limit Results**
 
