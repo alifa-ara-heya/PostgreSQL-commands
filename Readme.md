@@ -28,6 +28,7 @@
 24. [`LIKE` Operator](#24-like-operator)
 25. [Updating and Deleting Data](#25-updating-and-deleting-data)
 26. [Pagination (`LIMIT` and `OFFSET`)](#26-pagination-limit-and-offset)
+27. [Date, Time, and Boolean Operations](#27-date-time-and-boolean-operations)
 
 ### **1. Connecting to PostgreSQL**
 
@@ -871,6 +872,106 @@ SELECT * FROM students LIMIT 5 OFFSET 5 * 0;  -- Rows 1-6
 SELECT * FROM students LIMIT 5 OFFSET 5 * 1;  -- Rows 7-11
 SELECT * FROM students LIMIT 5 OFFSET 5 * 2;  -- Rows 12-17
 
+```
+
+---
+
+### **27. Date, Time, and Boolean Operations**
+
+- **Show current timezone:**
+
+```sql
+SHOW timezone;
+```
+
+- **Current timestamp (includes date, time, and timezone):**
+
+```sql
+SELECT now();
+```
+
+- **Create a table with timestamp fields:**
+
+```sql
+CREATE TABLE timeZ (
+    ts TIMESTAMP WITHOUT TIME ZONE,
+    tsz TIMESTAMP WITH TIME ZONE
+);
+```
+
+- **Insert sample data:**
+
+```sql
+INSERT INTO timeZ
+VALUES (
+    '2024-12-05 10:45:07',
+    '2024-12-05 10:45:07'
+);
+```
+
+- **View table contents:**
+
+```sql
+SELECT * FROM timeZ; --2024-12-05 10:45:07	  2024-12-05 10:45:07-05
+```
+
+- **Show today’s date:**
+
+```sql
+SELECT CURRENT_DATE;
+SELECT now()::date;  -- Casts timestamp to date
+```
+
+- **Show current time:**
+
+```sql
+SELECT now()::time;  -- Casts timestamp to time
+```
+
+- **Format timestamp as string:**
+
+```sql
+SELECT to_char(now(), 'mm-dd-yyyy');
+SELECT to_char(now(), 'Mon');     -- e.g., May
+SELECT to_char(now(), 'Month');   -- e.g., May
+SELECT to_char(now(), 'MONTH');   -- e.g., MAY
+SELECT to_char(now(), 'DDD');     -- Day of the year
+```
+
+- **Date arithmetic (subtracting intervals):**
+
+```sql
+SELECT CURRENT_DATE - INTERVAL '1 year'; --the day before one year from today
+SELECT CURRENT_DATE - INTERVAL '1 year 2 month';-- the day before one year and 2 months from today
+```
+
+- **Calculate age:**
+
+```sql
+SELECT age(CURRENT_DATE, '1995-11-1');  -- Result in years, months, days, e,g., "years":29,"months":6,"days":19
+
+--calculating age of each student
+SELECT *, age(CURRENT_DATE, dob) FROM students;
+```
+
+- **Extract parts from a date:**
+
+```sql
+SELECT extract(YEAR FROM '2023-08-12'::date); --2023
+SELECT extract(MONTH FROM '2023-08-12'::date); ----8
+SELECT extract(DAY FROM '2023-08-12'::date); ----12
+```
+
+- **Boolean casting examples:**
+
+```sql
+SELECT 1::Boolean;        -- true
+SELECT 'n'::Boolean;      -- false
+SELECT 'y'::Boolean;      -- true
+SELECT 'f'::Boolean;      -- false
+SELECT 't'::Boolean;      -- true
+SELECT 'no'::Boolean;     -- false
+SELECT 'yes'::Boolean;    -- true
 ```
 
 ---
