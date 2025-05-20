@@ -29,6 +29,7 @@
 25. [Updating and Deleting Data](#25-updating-and-deleting-data)
 26. [Pagination (`LIMIT` and `OFFSET`)](#26-pagination-limit-and-offset)
 27. [Date, Time, and Boolean Operations](#27-date-time-and-boolean-operations)
+28. [Grouping and Filtering Data with `GROUP BY` and `HAVING`](#28-grouping-and-filtering-data-with-group-by-and-having)
 
 ### **1. Connecting to PostgreSQL**
 
@@ -972,6 +973,50 @@ SELECT 'f'::Boolean;      -- false
 SELECT 't'::Boolean;      -- true
 SELECT 'no'::Boolean;     -- false
 SELECT 'yes'::Boolean;    -- true
+```
+
+---
+
+### **28. Grouping and Filtering Data with `GROUP BY` and `HAVING`**
+
+- **Group by country:**
+
+```sql
+SELECT country FROM students GROUP BY country;
+-- Lists distinct countries
+```
+
+- **Count students in each country:**
+
+```sql
+SELECT country, count(*) FROM students GROUP BY country;
+```
+
+- **Average age per country:**
+
+```sql
+SELECT country, avg(age) FROM students GROUP BY country;
+```
+
+- **Filter groups using `HAVING`:**
+
+```sql
+SELECT country, avg(age)
+FROM students
+GROUP BY country
+HAVING avg(age) > 20;
+-- Filters country groups where average age > 20
+```
+
+> Note: `WHERE` filters individual rows; `HAVING` filters grouped results.
+
+- **Count students born in each year:**
+
+```sql
+SELECT extract(YEAR FROM dob) AS birth_year, count(*)
+FROM students
+GROUP BY birth_year;
+-- Groups students by birth year and counts the number of students in each year
 ```
 
 ---
