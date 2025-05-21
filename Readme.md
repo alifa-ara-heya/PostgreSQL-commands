@@ -30,6 +30,7 @@
 26. [Pagination (`LIMIT` and `OFFSET`)](#26-pagination-limit-and-offset)
 27. [Date, Time, and Boolean Operations](#27-date-time-and-boolean-operations)
 28. [Grouping and Filtering Data with `GROUP BY` and `HAVING`](#28-grouping-and-filtering-data-with-group-by-and-having)
+29. [Foreign Key Constraints and `ON DELETE` Actions](#29-foreign-key-constraints-and-on-delete-actions)
 
 ### **1. Connecting to PostgreSQL**
 
@@ -1018,5 +1019,127 @@ FROM students
 GROUP BY birth_year;
 -- Groups students by birth year and counts the number of students in each year
 ```
+
+---
+
+### **29. Foreign Key Constraints and `ON DELETE` Actions**
+
+#### 🔸 Table Creation:
+
+- **Using `"user"` as a table name (quoted because it's a reserved keyword):**
+
+```sql
+CREATE TABLE "user" (
+    id SERIAL PRIMARY KEY,
+    userName VARCHAR(25) NOT NULL
+);
+```
+
+---
+
+#### 🔸 `ON DELETE` Actions in Foreign Keys
+
+- **`ON DELETE CASCADE`**- Automatically deletes related posts when a user is deleted.
+
+```sql
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    user_id INTEGER REFERENCES "user"(id) ON DELETE CASCADE
+    --so user_id is the foreign key of the 'post' table
+);
+```
+
+- **`ON DELETE SET NULL`** - Sets `user_id` to `NULL` in posts when the related user is deleted.
+
+```sql
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    user_id INTEGER REFERENCES "user"(id) ON DELETE SET NULL
+);
+```
+
+- **`ON DELETE SET DEFAULT`** - Sets `user_id` to a default value (e.g., 2) when the user is deleted.
+
+```sql
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    user_id INTEGER DEFAULT 2 REFERENCES "user"(id) ON DELETE SET DEFAULT
+);
+```
+
+---
+
+#### 🔸 Sample Data Insertion
+
+- **Insert users:**
+
+```sql
+INSERT INTO "user" (userName)
+VALUES
+    ('ayesha'),
+    ('fatima'),
+    ('khadiza'),
+    ('maryam');
+```
+
+- **View users:**
+
+```sql
+SELECT * FROM "user";
+```
+
+- **Insert posts:**
+
+```sql
+INSERT INTO post (title, user_id)
+VALUES
+    ('My first post!', 1),
+    ('Just another update!', 2),
+    ('Learning SQL is fun!', 3),
+    ('Post number four!', 4),
+    ('Quick post for practice.', 2);
+```
+
+- **Insert post with NULL user_id (only if `user_id` allows NULLs):**
+
+```sql
+INSERT INTO post (title, user_id) VALUES ('test', NULL);
+```
+
+- **View posts:**
+
+```sql
+SELECT * FROM post;
+```
+
+- **Make column non-nullable (if needed):**
+
+```sql
+ALTER TABLE post ALTER COLUMN user_id SET NOT NULL;
+```
+
+---
+
+#### 🔸 Clean-Up (Optional for Reset)
+
+```sql
+DROP TABLE post;
+DROP TABLE "user";
+```
+
+---
+
+#### 🔸 Deletion Constraints
+
+- **Attempt to delete a user:**
+
+```sql
+DELETE FROM "user" WHERE id = 4;
+```
+
+> 📝 If `ON DELETE` action is not set (default behavior is `RESTRICT` or `NO ACTION`), deletion will fail if related records exist in the referencing table.
 
 ---
