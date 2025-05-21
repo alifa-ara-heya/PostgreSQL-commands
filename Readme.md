@@ -1,12 +1,12 @@
 ## **PostgreSQL Quick Reference**
 
-## Table of Contents
+## [Table of Contents](#table-of-contents)
 
 1. [Connecting to PostgreSQL](#1-connecting-to-postgresql)
 2. [Creating Database](#2-creating-database)
 3. [Switching Databases and Exiting](#3-switching-databases-and-exiting)
 4. [Listing Information](#4-listing-information)
-5. [Managing Users / Roles](#5-managing-users-roles)
+5. [Managing Users / Roles](#5-managing-users--roles)
 6. [Login as New User](#6-login-as-new-user)
 7. [Table Operations](#7-table-operations)
 8. [Granting and Revoking Permissions](#8-granting-and-revoking-permissions)
@@ -111,7 +111,7 @@
   CREATE ROLE role1 WITH LOGIN ENCRYPTED PASSWORD '12345';
   ```
 
----
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **6. Login as New User**
 
@@ -194,6 +194,7 @@
   ```sql
   DROP DATABASE another_db;
   ```
+  [🔼 Back to Table of Contents](#table-of-contents)
 
 ---
 
@@ -393,7 +394,7 @@ CREATE TABLE orders (
 | --------- | ------- | --------------------------- |
 | `BOOLEAN` | 1 byte  | Stores TRUE or FALSE values |
 
----
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **14. Modifying Columns in PostgreSQL**
 
@@ -878,7 +879,7 @@ SELECT * FROM students LIMIT 5 OFFSET 5 * 2;  -- Rows 12-17
 
 ```
 
----
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **27. Date, Time, and Boolean Operations**
 
@@ -1144,7 +1145,7 @@ DELETE FROM "user" WHERE id = 4;
 
 > 📝 If `ON DELETE` action is not set (default behavior is `RESTRICT` or `NO ACTION`), deletion will fail if related records exist in the referencing table.
 
----
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **30. Joins in PostgreSQL**
 
@@ -1228,7 +1229,7 @@ SELECT * FROM post AS p RIGHT JOIN "user" u ON p.user_id = u.id;
 SELECT * FROM post AS p FULL OUTER JOIN "user" u ON p.user_id = u.id;
 ```
 
----
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **31. Additional Join Examples**
 
@@ -1269,3 +1270,5 @@ SELECT * FROM employees CROSS JOIN department;
 SELECT * FROM employees NATURAL JOIN department;
 -- Requires both tables to have a common column name (e.g., dept_id)
 ```
+
+[🔼 Back to Table of Contents](#table-of-contents)
