@@ -31,6 +31,8 @@
 27. [Date, Time, and Boolean Operations](#27-date-time-and-boolean-operations)
 28. [Grouping and Filtering Data with `GROUP BY` and `HAVING`](#28-grouping-and-filtering-data-with-group-by-and-having)
 29. [Foreign Key Constraints and `ON DELETE` Actions](#29-foreign-key-constraints-and-on-delete-actions)
+30. [Joins in PostgreSQL](#30-joins-in-postgresql)
+31. [Additional Join Examples](#31-additional-join-examples)
 
 ### **1. Connecting to PostgreSQL**
 
@@ -1143,3 +1145,127 @@ DELETE FROM "user" WHERE id = 4;
 > 📝 If `ON DELETE` action is not set (default behavior is `RESTRICT` or `NO ACTION`), deletion will fail if related records exist in the referencing table.
 
 ---
+
+### **30. Joins in PostgreSQL**
+
+#### 🔸 Tables Setup
+
+```sql
+CREATE TABLE "user" (
+    id SERIAL PRIMARY KEY,
+    userName VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    user_id INTEGER REFERENCES "user" (id)
+);
+```
+
+#### 🔸 Insert Sample Data
+
+```sql
+INSERT INTO "user" (userName)
+VALUES ('ayesha'), ('fatima'), ('khadija'), ('maryam');
+
+INSERT INTO post (title, user_id)
+VALUES
+    ('My first post!', 2),
+    ('Just another update!', 1),
+    ('Learning SQL is fun!', 1),
+    ('Post number four!', 4),
+    ('Quick post for practice.', 2),
+    ('this is test post title', NULL);
+```
+
+---
+
+#### 🔸 `INNER JOIN`- Join only matching rows from both tables, filters out the unrelated posts and users, only show the data which meet condition.
+
+```sql
+SELECT title, userName
+FROM post
+JOIN "user" ON post.user_id = "user".id;
+
+-- View all columns as a single table
+SELECT * FROM post JOIN "user" ON post.user_id = "user".id;
+
+-- Column disambiguation(providing context when column names are same, e.g., id)
+SELECT "user".id, post.id FROM post JOIN "user" ON post.user_id = "user".id;
+
+-- Using aliases
+SELECT p.id FROM post p JOIN "user" u ON p.user_id = u.id;
+
+SELECT p.id FROM post AS p JOIN "user" AS u ON p.user_id = u.id; --using 'as'
+```
+
+---
+
+#### 🔸 `LEFT JOIN` - Returns all rows from the `post` table and matched rows from `user`:
+
+```sql
+SELECT * FROM post AS p LEFT JOIN "user" u ON p.user_id = u.id;
+```
+
+---
+
+#### 🔸 `RIGHT JOIN` - Returns all rows from the `user` table and matched rows from `post`:
+
+```sql
+SELECT * FROM post AS p RIGHT JOIN "user" u ON p.user_id = u.id;
+```
+
+> ⚠️ Table order matters in `LEFT` and `RIGHT` joins.
+
+---
+
+#### 🔸 `FULL OUTER JOIN`
+
+- Returns all rows from both tables, matched where possible:
+
+```sql
+SELECT * FROM post AS p FULL OUTER JOIN "user" u ON p.user_id = u.id;
+```
+
+---
+
+### **31. Additional Join Examples**
+
+##### Sample Tables
+
+```sql
+CREATE TABLE employees (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    dept_id INT
+);
+
+CREATE TABLE department (
+    dept_id INT,
+    dept_name VARCHAR(50)
+);
+```
+
+##### Sample Data
+
+```sql
+INSERT INTO employees VALUES (1, 'John Doe', 101);
+INSERT INTO employees VALUES (2, 'Jane Smith', 102);
+
+INSERT INTO department VALUES (101, 'Human Resources');
+INSERT INTO department VALUES (102, 'Marketing');
+```
+
+##### `CROSS JOIN`- Combines every row of `employees` with every row of `department`:
+
+```sql
+SELECT * FROM employees CROSS JOIN department;
+```
+
+##### `NATURAL JOIN`- Joins tables using columns with the same names:
+
+```sql
+SELECT * FROM employees NATURAL JOIN department;
+-- Requires both tables to have a common column name (e.g., dept_id)
+```
