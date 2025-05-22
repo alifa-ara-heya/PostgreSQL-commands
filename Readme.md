@@ -488,6 +488,17 @@ ADD CONSTRAINT unique_person3_user_address UNIQUE (user_address);
 
 _Adds a `UNIQUE` constraint to the `user_address` column._
 
+- **Add Foreign Key Constraint**
+
+```sql
+ALTER table students
+add constraint fk_department_id
+FOREIGN key (department_id)
+REFERENCES departments(id)
+```
+
+> _`fk_students_department` is the name of the constraint (you can choose any name). This enforces that any department_id in students table must exist in departments.id, or be NULL._
+
 - **Delete a Unique Constraint**
 
 ```sql
