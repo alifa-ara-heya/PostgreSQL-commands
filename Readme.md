@@ -33,7 +33,12 @@
 29. [Foreign Key Constraints and `ON DELETE` Actions](#29-foreign-key-constraints-and-on-delete-actions)
 30. [Joins in PostgreSQL](#30-joins-in-postgresql)
 31. [Additional Join Examples](#31-additional-join-examples)
-32. [Subqueries and Advanced Filtering](#32-subquery)
+32. [Subqueries and Advanced Filtering](#32-subqueries-and-advanced-filtering)
+33. [Views in PostgreSQL](#33-views-in-postgresql)
+34. [PostgreSQL Functions](#34-postgresql-functions)
+35. [PostgreSQL Procedures](#35-postgresql-procedures)
+36. [Triggers in PostgreSQL](#36-triggers-in-postgresql)
+37. [Indexing](#37-indexing)
 
 ### **1. Connecting to PostgreSQL**
 
@@ -328,6 +333,8 @@ CREATE TABLE orders (
 
 ---
 
+[🔼 Back to Table of Contents](#table-of-contents)
+
 ### **12. Clearing Terminal**
 
 - **Clear terminal from `psql`:**
@@ -595,6 +602,8 @@ SELECT DISTINCT country FROM students;  -- Unique countries
 
 ---
 
+[🔼 Back to Table of Contents](#table-of-contents)
+
 ### **17. Data Filtering (`WHERE` Clause)**
 
 - **Filtering by Country**
@@ -786,6 +795,10 @@ The `IN` operator is used to check if a value matches any value in a list of val
 
   ```
 
+  ***
+
+  [🔼 Back to Table of Contents](#table-of-contents)
+
 ### **23. `BETWEEN` Operator**
 
 The `BETWEEN` operator is used to filter the results within a range (inclusive).
@@ -805,6 +818,8 @@ The `BETWEEN` operator is used to filter the results within a range (inclusive).
   ```
 
 ---
+
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **24. `LIKE` Operator**
 
@@ -858,6 +873,8 @@ The `LIKE` operator is used to search for a specified pattern in a column.
 
 ---
 
+[🔼 Back to Table of Contents](#table-of-contents)
+
 ### **25. Updating and Deleting Data**
 
 - **Update Data**
@@ -889,6 +906,8 @@ DELETE FROM students;  -- Deletes all rows in the table
 ```
 
 ---
+
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **26. Pagination (`LIMIT` and `OFFSET`)**
 
@@ -1318,7 +1337,7 @@ SELECT * FROM employees NATURAL JOIN department;
 
 ---
 
-### 32. Subqueries and Advanced Filtering
+### **32. Subqueries and Advanced Filtering**
 
 > A subquery is a nested query within another SQL statement.
 > Here’s a well-organized **Section 31** in Markdown format for your PostgreSQL notes:
@@ -1420,5 +1439,435 @@ FROM (
 ```
 
 > The subquery behaves like a derived/temporary table and can be referenced in the outer query.
+
+---
+
+[🔼 Back to Table of Contents](#table-of-contents)
+
+### **33. Views in PostgreSQL**
+
+#### 🔸 What is a View?
+
+- A **view** is a **virtual table** based on the result of a SQL query.
+- It does **not store data** physically — it **dynamically generates** results when queried.
+- Think of it as a saved SQL query you can treat like a regular table.
+
+---
+
+#### 🔸 Example: Creating a View for Department Average Salaries
+
+```sql
+-- Base data
+SELECT * FROM employees;
+
+-- Create a view
+CREATE VIEW dept_avg_salary AS
+SELECT department_name, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department_name;
+```
+
+- **Query the view just like a table:**
+
+```sql
+SELECT * FROM dept_avg_salary;
+```
+
+---
+
+#### ✅ Benefits of Using Views
+
+- **Simplifies complex queries**
+  You can hide joins, calculations, or nested queries behind a simple interface.
+
+- **Improves security**
+  You can expose limited columns or rows via views while restricting access to full tables.
+
+- **Enhances data abstraction**
+  Changes in the underlying schema can be hidden from users by updating the view logic.
+
+---
+
+#### 🧠 Notes
+
+- **Modifying data through views** is limited:
+
+  - Simple views can sometimes be used in `INSERT`, `UPDATE`, and `DELETE` operations.
+  - Complex views (e.g., those with `JOIN`, `GROUP BY`, aggregates) are usually **read-only**.
+
+- To drop a view:
+
+```sql
+DROP VIEW dept_avg_salary;
+```
+
+---
+
+[🔼 Back to Table of Contents](#table-of-contents)
+
+### **34. PostgreSQL Functions**
+
+#### 🔸 What is a Function?
+
+A **function** in PostgreSQL is a reusable block of SQL logic that:
+
+- Can **accept parameters**
+- Can **return a value**
+- Can be used within `SELECT`, `WHERE`, etc.
+
+---
+
+#### 🔸 1. Function Without Parameters
+
+```sql
+CREATE FUNCTION count_emp()
+RETURNS INT
+LANGUAGE SQL
+AS
+$$
+    SELECT COUNT(*) FROM employees;
+$$;
+
+-- Calling the function
+SELECT count_emp();
+```
+
+---
+
+#### 🔸 2. Function Returning Nothing (`void`)
+
+```sql
+CREATE FUNCTION del_emp()
+RETURNS void
+LANGUAGE SQL
+AS
+$$
+   DELETE FROM employees WHERE employee_id = 30;
+$$;
+
+-- Calling the function
+SELECT del_emp();
+```
+
+---
+
+#### 🔸 3. Function With Parameters
+
+```sql
+CREATE OR REPLACE FUNCTION del_emp_by_id(p_emp_id INT)
+RETURNS void
+LANGUAGE SQL
+AS
+$$
+   DELETE FROM employees WHERE employee_id = p_emp_id;
+$$;
+
+-- Call the function
+SELECT del_emp_by_id(29);
+```
+
+---
+
+#### 🧠 Notes on Functions
+
+- Can be written in **SQL** or **PL/pgSQL**
+- Can be **called in `SELECT` statements**
+- Useful for computations or encapsulating logic that returns a value
+- Cannot perform transactional control like `COMMIT` or `ROLLBACK`
+
+---
+
+[🔼 Back to Table of Contents](#table-of-contents)
+
+### **35. PostgreSQL Procedures**
+
+#### 🔸 What is a Procedure?
+
+A **procedure** is similar to a function, but:
+
+- Is called using `CALL`
+- Does **not return a value directly**
+- Can contain **transactional control** (`BEGIN`, `COMMIT`, `ROLLBACK`)
+- Often used for performing actions or system tasks
+
+---
+
+#### 🔸 1. Procedure Without Parameters
+
+```sql
+CREATE PROCEDURE remove_emp()
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    DELETE FROM employees WHERE employee_id = 28;
+END;
+$$;
+
+-- Calling the procedure
+CALL remove_emp();
+```
+
+---
+
+#### 🔸 2. Procedure With Parameters and Internal Variable
+
+```sql
+CREATE PROCEDURE remove_emp_by_id(p_emp_id INT)
+LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    test_var INT;
+BEGIN
+    SELECT employee_id INTO test_var FROM employees WHERE employee_id = p_emp_id;
+    DELETE FROM employees WHERE employee_id = test_var;
+    RAISE NOTICE 'Employee Removed Successfully'; --similar to console.log()
+END;
+$$;
+
+-- Calling the procedure
+CALL remove_emp_by_id(11);
+```
+
+---
+
+#### 🧠 Notes on Procedures
+
+- Must be called using `CALL`, not `SELECT`
+- Cannot be used inside `SELECT` or `WHERE`
+- Designed for side-effect actions (insert, delete, etc.)
+- Supports `RAISE NOTICE`, flow control (`IF`, `LOOP`, etc.), and exception handling
+
+---
+
+### 🔁 **Function vs. Procedure — Key Differences**
+
+| Feature             | Function                        | Procedure                            |
+| ------------------- | ------------------------------- | ------------------------------------ |
+| Invocation          | `SELECT function_name()`        | `CALL procedure_name()`              |
+| Return Value        | Must return a value (or `void`) | Does not return a value directly     |
+| Transaction Control | ❌ Not allowed                  | ✅ Allowed (`BEGIN`, `COMMIT`, etc.) |
+| Usage Context       | Can be used inside queries      | Cannot be used inside queries        |
+| Language Support    | `SQL`, `PL/pgSQL`, others       | Typically `PL/pgSQL`                 |
+| Best Use Case       | Computation, returning data     | Performing tasks with side effects   |
+
+---
+
+[🔼 Back to Table of Contents](#table-of-contents)
+
+### **36. Triggers in PostgreSQL**
+
+#### 🔸 What is a Trigger?
+
+A **trigger** is a special database object that **automatically executes** a defined function **in response to certain events** on a table or view.
+
+---
+
+#### 🔹 Trigger Event Types
+
+- **Table-Level Events:**  
+  `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`
+
+- **Database-Level Events (Advanced):**  
+  `STARTUP`, `SHUTDOWN`, `CONNECTION START/END`, etc. _(Handled differently, often with event triggers.)_
+
+---
+
+#### 🔹 Basic Syntax of a Trigger
+
+```sql
+CREATE TRIGGER trigger_name
+{ BEFORE | AFTER | INSTEAD OF } { INSERT | UPDATE | DELETE | TRUNCATE }
+ON table_name
+[FOR EACH ROW | FOR EACH STATEMENT]
+EXECUTE FUNCTION function_name();
+```
+
+---
+
+#### 🔸 Example: Store Deleted Users in an Audit Table
+
+---
+
+**1. Base Table**
+
+```sql
+CREATE TABLE my_users (
+    user_name VARCHAR(50),
+    email VARCHAR(100)
+);
+
+INSERT INTO my_users VALUES
+    ('Mezba', 'mezba@mail.com'),
+    ('Mir', 'mir@mail.com');
+
+SELECT * FROM my_users;
+```
+
+---
+
+**2. Audit Table**
+
+```sql
+CREATE TABLE deleted_users_audit (
+    deleted_user_name VARCHAR(50),
+    deletedAt TIMESTAMP
+);
+
+SELECT * FROM deleted_users_audit;
+```
+
+---
+
+**3. Create the Trigger Function**
+
+```sql
+CREATE OR REPLACE FUNCTION save_deleted_user()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    INSERT INTO deleted_users_audit
+    VALUES (OLD.user_name, NOW());  -- 'OLD' holds the deleted row data
+    RAISE NOTICE 'Deleted user audit log created';
+    RETURN OLD;  -- necessary for DELETE triggers
+END;
+$$;
+```
+
+---
+
+**4. Create the Trigger**
+
+```sql
+CREATE OR REPLACE TRIGGER save_deleted_user_trigger
+BEFORE DELETE
+ON my_users
+FOR EACH ROW
+EXECUTE FUNCTION save_deleted_user();
+```
+
+---
+
+**5. Delete a User (Trigger Fires Automatically)**
+
+```sql
+DELETE FROM my_users WHERE user_name = 'Mir';
+```
+
+> ✅ After deletion, a new row will be inserted into `deleted_users_audit` with the username and timestamp.
+
+---
+
+#### Notes on Triggers
+
+- Use `OLD` for accessing **existing row values** during `DELETE` or `UPDATE`.
+- Use `NEW` for accessing **incoming row values** during `INSERT` or `UPDATE`.
+- Triggers can run:
+
+  - **Before or After** the event (`BEFORE DELETE`, `AFTER INSERT`, etc.)
+  - **For Each Row** or **Once Per Statement**
+
+- You must **create the function first** before creating the trigger.
+
+---
+
+[🔼 Back to Table of Contents](#table-of-contents)
+
+### **37. Indexing**
+
+#### 🔸 What is an Index?
+
+A **database index** is a **data structure** used to **quickly locate and access data** in a table — similar to an index in a book. It enhances **read performance**, especially for large tables.
+
+> Without indexing, PostgreSQL performs a **sequential scan** (i.e., checks every row).
+
+---
+
+#### 🔸 Example: Indexing Workflow
+
+```sql
+-- Step 1: Check baseline query performance
+EXPLAIN ANALYZE
+SELECT * FROM employees WHERE employee_name = 'William Jackson';
+
+-- Step 2: Create index on employee_name column
+CREATE INDEX idx_employees_employee_name
+ON employees (employee_name);
+
+-- Step 3: Re-run the query to see improved performance
+EXPLAIN ANALYZE
+SELECT * FROM employees WHERE employee_name = 'William Jackson';
+```
+
+> `EXPLAIN ANALYZE` helps you analyze query plans and compare before vs. after indexing.
+
+---
+
+#### 🔸 Viewing Data Directory Location
+
+```sql
+SHOW data_directory;
+```
+
+---
+
+### ✅ When to Use Indexing
+
+- On **frequently queried columns** in `WHERE`, `JOIN`, `ORDER BY`, or `GROUP BY`
+- On **large tables** where filtering or searching slows down
+- On **columns with high cardinality** (i.e., many unique values)
+- When supporting **foreign key relationships**
+
+---
+
+### ❌ When Not to Use Indexing
+
+- On **small tables** (sequential scan is often faster)
+- On **columns with low cardinality** (e.g., boolean fields)
+- If the column is **rarely used in queries**
+- When doing **frequent write operations** (`INSERT`, `UPDATE`, `DELETE`) — too many indexes can slow them down due to constant index maintenance
+
+---
+
+### ⚙️ Algorithms Behind Indexing
+
+| Index Type | Description                                                               | Use Case                            |
+| ---------- | ------------------------------------------------------------------------- | ----------------------------------- |
+| **B-tree** | Default; balanced tree for fast lookup (`=`, `<`, `>`, `BETWEEN`, `LIKE`) | Most general-purpose cases          |
+| **Hash**   | Hash table-based, only for exact match (`=`)                              | Fast equality lookups               |
+| **GIN**    | Generalized Inverted Index for arrays, JSONB, full-text search            | Full-text search, complex datatypes |
+| **GiST**   | Generalized Search Tree, supports ranges, geometric types                 | Ranges, proximity queries           |
+| **BRIN**   | Block Range Index — summarizes large block ranges                         | Very large tables, time-series data |
+
+---
+
+### Notes
+
+- PostgreSQL **automatically uses indexes** if the query planner finds them beneficial.
+
+- You can **force an index** with:
+
+  ```sql
+  SET enable_seqscan = off;
+  ```
+
+- You can **drop an index** with:
+
+  ```sql
+  DROP INDEX idx_employees_employee_name;
+  ```
+
+- PostgreSQL supports **composite indexes**:
+
+  ```sql
+  CREATE INDEX idx_multi ON employees (department_name, salary);
+  ```
+
+> 🏁 Indexes **speed up read performance** but **may slow down writes** — use wisely.
+
+---
 
 [🔼 Back to Table of Contents](#table-of-contents)
