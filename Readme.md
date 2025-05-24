@@ -33,6 +33,7 @@
 29. [Foreign Key Constraints and `ON DELETE` Actions](#29-foreign-key-constraints-and-on-delete-actions)
 30. [Joins in PostgreSQL](#30-joins-in-postgresql)
 31. [Additional Join Examples](#31-additional-join-examples)
+32. [Subqueries and Advanced Filtering](#32-subquery)
 
 ### **1. Connecting to PostgreSQL**
 
@@ -191,10 +192,14 @@
   ALTER DATABASE test_db RENAME TO another_db;
   ```
 - **Delete (drop) a database:**
+
   ```sql
   DROP DATABASE another_db;
   ```
-  [🔼 Back to Table of Contents](#table-of-contents)
+
+  ***
+
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ---
 
@@ -394,6 +399,8 @@ CREATE TABLE orders (
 | --------- | ------- | --------------------------- |
 | `BOOLEAN` | 1 byte  | Stores TRUE or FALSE values |
 
+---
+
 [🔼 Back to Table of Contents](#table-of-contents)
 
 ### **14. Modifying Columns in PostgreSQL**
@@ -491,6 +498,8 @@ _Adds a `UNIQUE` constraint to the `user_address` column._
 - **Add Foreign Key Constraint**
 
 ```sql
+----Create a foreign key constraint on department_id in the students table referencing departments(id).
+
 ALTER table students
 add constraint fk_department_id
 FOREIGN key (department_id)
@@ -512,6 +521,10 @@ ALTER TABLE person3 DROP CONSTRAINT unique_person3_user_address;
 ```
 
 _Removes the `unique_person3_user_address` constraint._
+
+---
+
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### ** PostgreSQL Operations - Queries and Commands - Basic Table Operations**
 
@@ -635,6 +648,8 @@ SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 
 ---
 
+[🔼 Back to Table of Contents](#table-of-contents)
+
 ### **18. Scalar Functions**
 
 > **Scalar functions** are functions that operate on single values (scalar values) and return a single value as the result.
@@ -679,6 +694,8 @@ SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
 
 ---
 
+[🔼 Back to Table of Contents](#table-of-contents)
+
 ### **19. Aggregate Functions**
 
 > **Aggregate functions** in PostgreSQL are used to perform calculations on a set of rows and return a single result.
@@ -718,6 +735,8 @@ SELECT max(length(firstName)) FROM students;
 ```
 
 ---
+
+[🔼 Back to Table of Contents](#table-of-contents)
 
 ### **20. `NULL` Filtering**
 
@@ -1060,7 +1079,7 @@ CREATE TABLE post (
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     user_id INTEGER REFERENCES "user"(id) ON DELETE CASCADE
-    --so user_id is the foreign key of the 'post' table
+    --user_id is the foreign key of the 'post' table
 );
 ```
 
@@ -1214,6 +1233,19 @@ SELECT p.id FROM post AS p JOIN "user" AS u ON p.user_id = u.id; --using 'as'
 
 ---
 
+- `USING` keyword-
+
+```sql
+SELECT *
+FROM employees
+    JOIN departments ON departments.department_id = employees.department_id;
+
+--"Using" keyword makes it concise
+
+SELECT * FROM employees JOIN departments USING (department_id);
+--when same joining /common column exists like e.g.department_id
+```
+
 #### 🔸 `LEFT JOIN` - Returns all rows from the `post` table and matched rows from `user`:
 
 ```sql
@@ -1281,5 +1313,112 @@ SELECT * FROM employees CROSS JOIN department;
 SELECT * FROM employees NATURAL JOIN department;
 -- Requires both tables to have a common column name (e.g., dept_id)
 ```
+
+[🔼 Back to Table of Contents](#table-of-contents)
+
+---
+
+### 32. Subqueries and Advanced Filtering
+
+> A subquery is a nested query within another SQL statement.
+> Here’s a well-organized **Section 31** in Markdown format for your PostgreSQL notes:
+
+#### 🔸 Table: `employees`
+
+```sql
+CREATE TABLE employees (
+    employee_id SERIAL PRIMARY KEY,
+    employee_name VARCHAR(50) NOT NULL,
+    department_name VARCHAR(50),
+    salary DECIMAL(10, 2),
+    hire_date DATE
+);
+```
+
+_(Sample data provided in earlier code block can be reused.)_
+
+---
+
+#### 🔸 Find Employees with Salary Greater Than Highest in HR
+
+```sql
+-- Step 1: Check the highest salary in HR
+SELECT MAX(salary) FROM employees WHERE department_name = 'HR';
+-- Result: 85000
+
+-- Step 2: Get all employees with salary above that
+SELECT *
+FROM employees --outer query
+WHERE salary > (
+    SELECT MAX(salary)
+    FROM employees
+    WHERE department_name = 'HR' --the bracketed part is the subquery
+);
+```
+
+_This subquery returns a **single value**, and the outer query uses it for filtering._
+
+---
+
+#### 🔸 Subquery Returning a Single Column (One-to-All Comparison)
+
+```sql
+-- Total salary sum added as a column to each row (same value repeated)
+SELECT *, (SELECT SUM(salary) FROM employees) FROM employees;
+```
+
+---
+
+#### 🔸 Subquery Returning Multiple Rows
+
+Example:
+
+#### ❓ **Find all employees who work in the same departments as 'Jane Smith'**
+
+```sql
+-- Step 1: Find departments Jane Smith works in (returns multiple rows if she works in many)
+SELECT department_name
+FROM employees
+WHERE employee_name = 'Jane Smith';
+
+-- Step 2: Use that result in a subquery to get other employees in the same departments
+SELECT *
+FROM employees
+WHERE department_name IN (
+    SELECT department_name
+    FROM employees
+    WHERE employee_name = 'Jane Smith'
+);
+```
+
+Another Example:
+
+#### ❓ **Find all departments that have employees with salary > 90,000**
+
+```sql
+SELECT DISTINCT department_name
+FROM employees
+WHERE department_name IN (
+    SELECT department_name
+    FROM employees
+    WHERE salary > 90000
+);
+```
+
+---
+
+#### 🔸 Subquery as a Virtual Table
+
+```sql
+-- Show sum of salaries per department using a subquery
+SELECT *
+FROM (
+    SELECT department_name, SUM(salary) AS total_salary
+    FROM employees
+    GROUP BY department_name
+) AS sum_dept_salary;
+```
+
+> The subquery behaves like a derived/temporary table and can be referenced in the outer query.
 
 [🔼 Back to Table of Contents](#table-of-contents)
