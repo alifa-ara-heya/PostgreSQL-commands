@@ -653,6 +653,7 @@ SELECT * FROM students WHERE firstName LIKE '%am';  -- Ends with 'am'
 SELECT * FROM students WHERE firstName LIKE 'A%';  -- Starts with 'A'
 SELECT * FROM students WHERE firstName ILIKE 'a%';  -- Case-insensitive search
 SELECT * FROM students WHERE firstName LIKE '__a';  -- Third letter is 'a'
+SELECT * FROM students WHERE firstName ILIKE '%a%'; --To match any student name that contains the letter "a" or 'A' anywhere
 ```
 
 ---
