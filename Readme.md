@@ -102,6 +102,10 @@
   ```sql
   \dn
   ```
+- **List all commands of PostgrSQL:**
+  ```sql
+  \?
+  ```
 
 ---
 
