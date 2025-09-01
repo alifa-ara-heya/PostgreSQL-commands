@@ -59,6 +59,10 @@
   ```sql
   \conninfo
   ```
+- **To see the version of  postgreSQL:**
+  ```sql
+  select version();
+  ```
 
 ---
 
