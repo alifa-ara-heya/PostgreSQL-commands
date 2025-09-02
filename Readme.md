@@ -226,6 +226,10 @@
   ```sql
   DROP TABLE your_table;
   ```
+- **Delete a table if exists (to avoid the error):**
+  ```sql
+  DROP TABLE if exists your_table;
+  ```
 
 ---
 
